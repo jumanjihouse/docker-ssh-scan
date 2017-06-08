@@ -10,7 +10,7 @@ services:
         BUILD_DATE:   ${BUILD_DATE}
         VCS_REF:      ${VCS_REF}
         VERSION:      ${VERSION}
-    read_only: false
+    read_only: true
     cap_drop:
       - all
     pids_limit: 10

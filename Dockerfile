@@ -18,6 +18,8 @@ RUN ln -s /app/config/policies /etc/ssh_scan
 ENTRYPOINT ["/app/bin/ssh_scan"]
 CMD ["-h"]
 
+VOLUME /app/data
+
 ARG CI_BUILD_URL
 ARG BUILD_DATE
 ARG VCS_REF
