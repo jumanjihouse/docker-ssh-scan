@@ -4,3 +4,5 @@
 docker login -u ${user} -p ${pass}
 docker-compose push
 docker logout
+
+curl -X POST 'https://hooks.microbadger.com/images/jumanjiman/ssh_scan/5rmDLkGXOhL7YSkGyxgg2adCyrA='
