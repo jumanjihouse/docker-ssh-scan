@@ -1,0 +1,6 @@
+app/.git/
+app/examples/
+app/spec/
+app/Dockerfile
+app/scripts/
+app/packaging/
