@@ -1,0 +1,25 @@
+version: '2.1'
+
+services:
+  ssh_scan:
+    image: jumanjiman/ssh_scan
+    build:
+      context: .
+      args:
+        CI_BUILD_URL: ${CIRCLE_BUILD_URL}
+        BUILD_DATE:   ${BUILD_DATE}
+        VCS_REF:      ${VCS_REF}
+        VERSION:      ${VERSION}
+    read_only: false
+    cap_drop:
+      - all
+    pids_limit: 10
+    cpu_shares: 1023
+    mem_limit: 1G
+    shm_size: 32M
+    stdin_open: true
+    tty: true
+
+  ssh_scan_tag:
+    extends: ssh_scan
+    image: jumanjiman/ssh_scan:${TAG}
