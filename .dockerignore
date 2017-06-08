@@ -1,6 +1,11 @@
-app/.git/
-app/examples/
-app/spec/
-app/Dockerfile
-app/scripts/
-app/packaging/
+.circleci
+.git*
+app/
+!app/lib/
+!app/bin/
+!app/config/
+!app/data/
+!app/Gemfile
+!app/ssh_scan.gemspec
+!app/LICENSE
+ci/
