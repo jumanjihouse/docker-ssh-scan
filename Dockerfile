@@ -3,6 +3,7 @@ FROM alpine:3.6
 RUN apk add --no-cache ruby ruby-io-console
 
 COPY app /app
+COPY policies /app/config/policies
 WORKDIR /app
 
 RUN gem install --no-rdoc --no-ri bundler
