@@ -3,12 +3,4 @@ set -e
 
 . ci/vars
 
-run_opts="
---rm
--it
---cap-drop all
-"
-docker run ${run_opts} jumanjiman/ssh_scan \
-  --target 67.205.145.156 \
-  --port   49154 \
-  --policy /etc/ssh_scan/stribika.yml
+docker-compose run --rm scanner

@@ -23,3 +23,10 @@ services:
   ssh_scan_tag:
     extends: ssh_scan
     image: jumanjiman/ssh_scan:${TAG}
+
+  scanner:
+    extends: ssh_scan
+    command: >
+      --target 67.205.145.156
+      --port   49154
+      --policy /etc/ssh_scan/stribika.yml
