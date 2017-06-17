@@ -11,7 +11,7 @@ RUN apk add --no-cache --virtual=dev \
       build-base \
       ruby-dev \
       && \
-    bundle install && \
+    bundle install --no-cache --without=development && \
     apk del --no-cache dev
 RUN ln -s /app/config/policies /etc/ssh_scan
 
