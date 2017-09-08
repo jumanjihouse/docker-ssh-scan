@@ -1,6 +1,10 @@
 FROM alpine:3.6
 
-RUN apk add --no-cache ruby ruby-io-console
+RUN apk add --no-cache \
+      openssh-client \
+      ruby \
+      ruby-io-console \
+      && :
 
 COPY app /app
 COPY policies /app/config/policies
