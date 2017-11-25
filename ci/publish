@@ -1,7 +1,17 @@
 #!/bin/bash
+set -e
+set -u
+set -o pipefail
+
+################################################################################
+# Publish image(s). Invoke as "ci/publish".
+################################################################################
 
 . ci/vars
-docker login -u ${user} -p ${pass}
+. ci/functions.sh
+
+# shellcheck disable=SC2154
+docker login -u "${user}" -p "${pass}"
 docker-compose push
 docker logout
 

@@ -1,15 +1,27 @@
-#!/bin/sh
+#!/bin/bash
 set -e
+set -u
+set -o pipefail
+
+################################################################################
+# Build image(s). Invoke as "ci/build".
+################################################################################
+. ci/functions.sh
 
 git submodule sync
 git submodule update --init
 
+cd src/app
+APP_VERSION=$(git describe --tags --always --dirty)
+cd ../..
+
 cat > ci/vars <<EOF
-export VERSION=$(cd app && git describe --tags --always --dirty)
-export BUILD_DATE=$(date +%Y%m%dT%H%M)
-export VCS_REF=$(git rev-parse --short HEAD)
-export TAG=\${VERSION}_\${BUILD_DATE}_git_\${VCS_REF}
+declare -rx APP_VERSION=${APP_VERSION}
+declare -rx BUILD_DATE=$(date +%Y%m%dT%H%M)
+declare -rx VCS_REF=$(git rev-parse --short HEAD)
+declare -rx TAG=\${APP_VERSION}_\${BUILD_DATE}_git_\${VCS_REF}
 EOF
 
 . ci/vars
+
 docker-compose build
