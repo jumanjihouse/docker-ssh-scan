@@ -11,8 +11,12 @@ set -o pipefail
 git submodule sync
 git submodule update --init
 
+cd src/app
+APP_VERSION=$(git describe --tags --always --dirty)
+cd ../..
+
 cat > ci/vars <<EOF
-declare -rx APP_VERSION=$(cd app && git describe --tags --always --dirty)
+declare -rx APP_VERSION=${APP_VERSION}
 declare -rx BUILD_DATE=$(date +%Y%m%dT%H%M)
 declare -rx VCS_REF=$(git rev-parse --short HEAD)
 declare -rx TAG=\${APP_VERSION}_\${BUILD_DATE}_git_\${VCS_REF}

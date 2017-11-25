@@ -4,7 +4,7 @@ services:
   ssh_scan:
     image: jumanjiman/ssh_scan
     build:
-      context: .
+      context: src/
       args:
         CI_BUILD_URL: ${CIRCLE_BUILD_URL}
         BUILD_DATE:   ${BUILD_DATE}
