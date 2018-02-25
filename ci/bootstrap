@@ -1,0 +1,107 @@
+#!/bin/bash
+set -eEu
+set -o pipefail
+
+################################################################################
+# Configure the local git repo for consistent operations in scripts.
+################################################################################
+
+# shellcheck disable=SC1091
+. ci/functions.sh
+
+# ci/config is an optional file to hold variables.
+if [[ -r ci/config ]]; then
+  # shellcheck disable=SC1091
+  . ci/config
+fi
+# Fetch via https by default.
+# If you have push access to either repo, create `ci/config` to override the variable(s).
+JUMANJIHOUSE_GIT_URL="${JUMANJIHOUSE_GIT_URL:-https://github.com/jumanjihouse/docker-ssh-scan.git}"
+MOZILLA_GIT_URL="${MOZILLA_GIT_URL:-https://github.com/mozilla/ssh_scan.git}"
+
+main() {
+  set_upstream_remote "${JUMANJIHOUSE_GIT_URL}"
+  set_upstream_fetch
+  add_aliases
+  fetch_upstream
+
+  setup_submodule
+
+  cd src/app/
+  set_upstream_remote "${MOZILLA_GIT_URL}"
+  set_upstream_fetch
+  add_aliases
+  fetch_upstream
+  cd ../../
+}
+
+#-------------------------------------------------------------------------------
+# Set an "upstream" remote.
+#-------------------------------------------------------------------------------
+set_upstream_remote() {
+  declare -r upstream_expected="$1"
+
+  declare upstream_actual
+  upstream_actual="$(git config --get remote.upstream.url || :)"
+  readonly upstream_actual
+
+  if [[ -z "${upstream_actual}" ]]; then
+    git remote add upstream "${upstream_expected}"
+  elif [[ "${upstream_expected}" != "${upstream_actual}" ]]; then
+    git remote set-url upstream "${upstream_expected}"
+  fi
+}
+
+#-------------------------------------------------------------------------------
+# Configure to fetch pull requests from upstream.
+#-------------------------------------------------------------------------------
+set_upstream_fetch() {
+  declare -r fetch_expected='+refs/pull/*/head:refs/remotes/upstream/pr/*'
+
+  declare fetch_actual
+  fetch_actual="$(git config --get-all remote.upstream.fetch || :)"
+  readonly fetch_actual
+
+  if ! echo "${fetch_actual}" | grep -F "${fetch_expected}" &> /dev/null; then
+    git config --add remote.upstream.fetch "${fetch_expected}"
+  fi
+}
+
+#-------------------------------------------------------------------------------
+# Add aliases, but only if local git repo does not already have them.
+# "git behind" shows commits that are in upstream/master but not local branch.
+# "git ahead"  shows commits that are in local branch but not upstream/master.
+#-------------------------------------------------------------------------------
+add_aliases() {
+  declare -r behind_expected='!git log ..upstream/master --oneline'
+  if ! git config --get alias.behind &> /dev/null; then
+    git config --add alias.behind "${behind_expected}"
+  fi
+
+  declare -r ahead_expected='!git log upstream/master.. --oneline'
+  if ! git config --get alias.ahead &> /dev/null; then
+    git config --add alias.ahead "${ahead_expected}"
+  fi
+}
+
+#-------------------------------------------------------------------------------
+# Fetch branches and pull requests from upstream.
+#-------------------------------------------------------------------------------
+fetch_upstream() {
+  echo "Fetching branches and pull requests from jumanjihouse/docker-ssh-scan"
+  git fetch --all &> /dev/null
+  info "Use 'git branch -r' to show remote branches and PRs for jumanjihouse/docker-ssh-scan"
+}
+
+#-------------------------------------------------------------------------------
+# Fetch the submodule.
+#-------------------------------------------------------------------------------
+setup_submodule() {
+  git submodule sync
+  git submodule update --init --recursive
+}
+
+#-------------------------------------------------------------------------------
+# Execute the script instructions.
+#-------------------------------------------------------------------------------
+main
