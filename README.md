@@ -30,33 +30,6 @@ We use circleci to build, test, and publish the image to Docker hub.
     docker pull jumanjiman/ssh_scan
 
 
-### Update the version of mozilla/ssh_scan
-
-The app is a git submodule in `src/app`.<br/>
-To update the version of `ssh_scan`, run:
-
-    # Configure the submodule to fetch pull requests.
-    ci/bootstrap
-
-    # Go into the submodule.
-    cd src/app
-
-    # Show available branches.
-    git branch -r
-
-    # Show available tags.
-    git tag
-
-    # Checkout the specific version of mozilla/ssh_scan.
-    git checkout <branch_or_tag>
-
-    # Go back to the local git repo.
-    cd ../..
-
-    # Commit the submodule.
-    git commit -m 'upgrade ssh_scan to <branch_or_tag>'
-
-
 ### Tags
 
 We provide multiple tags:

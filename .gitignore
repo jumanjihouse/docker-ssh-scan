@@ -1,4 +1,3 @@
 *.swp
 *~
-ci/config
 ci/vars
