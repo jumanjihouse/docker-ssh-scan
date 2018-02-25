@@ -8,7 +8,8 @@ set -o pipefail
 ################################################################################
 . ci/functions.sh
 
-ci/bootstrap
+git submodule sync
+git submodule update --init
 
 cd src/app
 APP_VERSION=$(git describe --tags --always --dirty)
