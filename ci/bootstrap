@@ -20,13 +20,15 @@ JUMANJIHOUSE_GIT_URL="${JUMANJIHOUSE_GIT_URL:-https://github.com/jumanjihouse/do
 MOZILLA_GIT_URL="${MOZILLA_GIT_URL:-https://github.com/mozilla/ssh_scan.git}"
 
 main() {
+  info "Processing top-level git repo"
   set_upstream_remote "${JUMANJIHOUSE_GIT_URL}"
   set_upstream_fetch
   add_aliases
   fetch_upstream
 
+  echo
+  info "Processing submodule"
   setup_submodule
-
   cd src/app/
   set_upstream_remote "${MOZILLA_GIT_URL}"
   set_upstream_fetch
@@ -88,9 +90,10 @@ add_aliases() {
 # Fetch branches and pull requests from upstream.
 #-------------------------------------------------------------------------------
 fetch_upstream() {
-  echo "Fetching branches and pull requests from jumanjihouse/docker-ssh-scan"
+  git remote -v
+  echo "Fetching branches and pull requests"
   git fetch --all &> /dev/null
-  info "Use 'git branch -r' to show remote branches and PRs for jumanjihouse/docker-ssh-scan"
+  info "Use 'git branch -r' to show remote branches and PRs"
 }
 
 #-------------------------------------------------------------------------------
@@ -98,7 +101,7 @@ fetch_upstream() {
 #-------------------------------------------------------------------------------
 setup_submodule() {
   git submodule sync
-  git submodule update --init --recursive
+  git submodule update --init --recursive --reference '+refs/pull/*/head:refs/remotes/upstream/pr/*'
 }
 
 #-------------------------------------------------------------------------------
