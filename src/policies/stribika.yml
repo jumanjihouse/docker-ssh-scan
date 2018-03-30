@@ -2,24 +2,24 @@
 name: Stribika
 ssh_version: 2.0
 auth_methods:
-- publickey
+  - publickey
 kex:
-- curve25519-sha256@libssh.org
-- diffie-hellman-group-exchange-sha256
+  - curve25519-sha256@libssh.org
+  - diffie-hellman-group-exchange-sha256
 encryption:
-- chacha20-poly1305@openssh.com
-- aes256-gcm@openssh.com
-- aes128-gcm@openssh.com
-- aes256-ctr
-- aes192-ctr
-- aes128-ctr
+  - chacha20-poly1305@openssh.com
+  - aes256-gcm@openssh.com
+  - aes128-gcm@openssh.com
+  - aes256-ctr
+  - aes192-ctr
+  - aes128-ctr
 macs:
-- hmac-sha2-512-etm@openssh.com
-- hmac-sha2-256-etm@openssh.com
-- umac-128-etm@openssh.com
-- hmac-sha2-512
-- hmac-sha2-256
-- umac-128@openssh.com
+  - hmac-sha2-512-etm@openssh.com
+  - hmac-sha2-256-etm@openssh.com
+  - umac-128-etm@openssh.com
+  - hmac-sha2-512
+  - hmac-sha2-256
+  - umac-128@openssh.com
 references:
-- https://stribika.github.io/2015/01/04/secure-secure-shell.html
-- https://github.com/stribika/stribika.github.io/commits/master/_posts/2015-01-04-secure-secure-shell.md
+  - https://stribika.github.io/2015/01/04/secure-secure-shell.html
+  - https://github.com/stribika/stribika.github.io/commits/master/_posts/2015-01-04-secure-secure-shell.md
