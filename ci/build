@@ -15,7 +15,7 @@ cd src/app
 APP_VERSION=$(git describe --tags --always --dirty)
 cd ../..
 
-cat > ci/vars <<EOF
+cat >ci/vars <<EOF
 declare -rx APP_VERSION=${APP_VERSION}
 declare -rx BUILD_DATE=$(date +%Y%m%dT%H%M)
 declare -rx VCS_REF=$(git rev-parse --short HEAD)
