@@ -24,6 +24,8 @@ ENTRYPOINT ["/app/bin/ssh_scan"]
 CMD ["-h"]
 
 VOLUME /app/data
+# https://github.com/mozilla/ssh_scan/blob/1169f8712d1f97f970/bin/ssh_scan#L22
+ENV HOME /app/data
 
 ARG CI_BUILD_URL
 ARG BUILD_DATE
