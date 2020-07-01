@@ -11,7 +11,7 @@ COPY app /app
 COPY policies /app/config/policies
 WORKDIR /app
 
-RUN gem install --no-rdoc --no-ri bundler
+RUN gem install --no-document bundler
 RUN apk add --no-cache --virtual=dev \
       build-base \
       ruby-dev \
