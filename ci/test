@@ -13,7 +13,7 @@ set -o pipefail
 
 echo
 echo Run file checks.
-pre-commit run --all-files --verbose
+pre-commit run --all-files
 
 echo
 echo Run the scanner against a real host.
