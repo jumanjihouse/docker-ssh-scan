@@ -11,12 +11,13 @@ COPY app /app
 COPY policies /app/config/policies
 WORKDIR /app
 
-RUN gem install --no-rdoc --no-ri bundler
+RUN gem install --no-document bundler
 RUN apk add --no-cache --virtual=dev \
       build-base \
       ruby-dev \
       && \
-    bundle install --no-cache --without=development && \
+    bundle config set no-cache 'true' && \
+    bundle install --without=development && \
     apk del --no-cache dev
 RUN ln -s /app/config/policies /etc/ssh_scan
 
@@ -24,6 +25,8 @@ ENTRYPOINT ["/app/bin/ssh_scan"]
 CMD ["-h"]
 
 VOLUME /app/data
+# https://github.com/mozilla/ssh_scan/blob/1169f8712d1f97f970/bin/ssh_scan#L22
+ENV HOME /app/data
 
 ARG CI_BUILD_URL
 ARG BUILD_DATE
